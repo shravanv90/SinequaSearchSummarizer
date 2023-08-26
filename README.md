@@ -16,7 +16,7 @@ The Sinequa Search Summarizer is a tool designed to provide concise, human-like 
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/shravanv90/sinequa-search-summarizer.git
+   git clone https://github.com/shravanv90/SinequaSearchSummarizer.git
 
    ```
 

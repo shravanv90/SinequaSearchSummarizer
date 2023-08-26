@@ -1,9 +1,9 @@
 # Sinequa Search Summarizer 🚀
 
-The Sinequa Search Summarizer is a cutting-edge tool designed to provide concise, human-like summaries for your search results. Powered by OpenAI's GPT-3.5 Turbo, it offers a seamless experience for users looking to grasp the essence of vast amounts of information quickly.
+The Sinequa Search Summarizer is a tool designed to provide concise, human-like summaries for your search results. Powered by OpenAI's GPT-3.5 Turbo, it offers a seamless experience for users looking to grasp the essence of vast amounts of information quickly.
 
-![App Screenshot](path_to_screenshot.png)  
-_Replace `path_to_screenshot.png` with the actual path to a screenshot of your app._
+![App Screenshot](assets/search_summary1.png)  
+![App Screenshot](assets/search_summary2.png)
 
 ## Features 🌟
 

@@ -3,10 +3,10 @@ import streamlit as st
 import openai
 
 # Define Sinequa REST API endpoint
-SINEQUA_API_ENDPOINT = "http://72.249.144.188/api/v1/query"
+SINEQUA_API_ENDPOINT = "<hostname>/api/v1/query"
 
 # Define OpenAI API key and initialize the client
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "<your-key>"
 openai.api_key = OPENAI_API_KEY
 
 def summarize(text):
@@ -43,11 +43,11 @@ query = st.text_input("Enter your search query:")
 if st.button("Search"):
     # Prepare the payload for the POST request
     payload = {
-        "app": "PharmaApp",
-        "user": "lrmtest",
-        "password": "LrmTest@4321",
+        "app": "<app>",
+        "user": "<user>",
+        "password": "<passw>",
         "query": {
-            "name": "pharma_query",
+            "name": "<queryname>",
             "text": query
         }
     }

@@ -3,13 +3,12 @@ import streamlit as st
 import openai
 
 # Define Sinequa REST API endpoint
-SINEQUA_API_ENDPOINT = "http://<hostname>/api/v1/query"
+SINEQUA_API_ENDPOINT = "http://72.249.144.188/api/v1/query"
 
 # Define OpenAI API key and initialize the client
-OPENAI_API_KEY = "<your key>"  # Replace with your actual OpenAI API key
+OPENAI_API_KEY = "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"
 openai.api_key = OPENAI_API_KEY
 
-# Define a function to generate summaries using GPT-3.5 Turbo
 def summarize(text):
     messages = [
         {"role": "system", "content": "You are a helpful assistant."},
@@ -18,6 +17,15 @@ def summarize(text):
     response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
     summary = response.choices[0].message['content'].strip()
     return summary
+
+def generate_questions(text):
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant."},
+        {"role": "user", "content": f"Generate 5 questions based on the following text:\n{text}"}
+    ]
+    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=messages)
+    questions = response.choices[0].message['content'].split('\n')  # Assuming questions are newline-separated
+    return questions
 
 # Streamlit layout and design enhancements
 st.title("Sinequa Search Summarizer")
@@ -35,11 +43,11 @@ query = st.text_input("Enter your search query:")
 if st.button("Search"):
     # Prepare the payload for the POST request
     payload = {
-        "app": "<appname>",
-        "user": "<user>",
-        "password": "<passw>",
+        "app": "PharmaApp",
+        "user": "lrmtest",
+        "password": "LrmTest@4321",
         "query": {
-            "name": "<query name>",
+            "name": "pharma_query",
             "text": query
         }
     }
@@ -49,21 +57,27 @@ if st.button("Search"):
     response_data = response.json()
 
     # Check if 'records' key exists in the response
-    if 'records' in response_data:
-        records = response_data["records"]
+if 'records' in response_data:
+    records = response_data["records"]
+    
+    # Display the results from the 'records' array
+    for i, record in enumerate(records):
+        st.subheader(f"**Result {i+1}**")
+        st.write(f"**Title:** {record['title']}")
         
-        # Display the results from the 'records' array
-        for i, record in enumerate(records):
-            st.subheader(f"**Result {i+1}**")
-            st.write(f"**Title:** {record['title']}")
-            
-            # Summarize the relevant extracts directly using GPT-3.5 Turbo
-            if 'relevantExtracts' in record:
-                summary = summarize(record['relevantExtracts'])
-                st.write(f"**Summary:** {summary}")
-            else:
-                st.write("No relevant extracts found for this record.")
-    else:
-        st.write("Error: The API response does not contain the 'records' key.")
-        st.write("Full API Response:")
-        st.json(response_data)  
+        # Summarize the relevant extracts directly using GPT-3.5 Turbo
+        if 'relevantExtracts' in record:
+            summary = summarize(record['relevantExtracts'])
+            st.write(f"**Summary:** {summary}")
+
+            # Generate questions based on the relevant extracts
+            questions = generate_questions(record['relevantExtracts'])
+            st.write("**Suggested Questions:**")
+            for q in questions:
+                st.write(f"- {q}")
+        else:
+            st.write("No relevant extracts found for this record.")
+else:
+    st.write("Error: The API response does not contain the 'records' key.")
+    st.write("Full API Response:")
+    st.json(response_data)  # Display the full API response in a formatted manner
